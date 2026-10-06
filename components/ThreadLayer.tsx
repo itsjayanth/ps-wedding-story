@@ -21,17 +21,20 @@
  * If measurement fails, nothing is rendered. Reduced motion: the thread is fully drawn.
  */
 import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { measure, type ThreadGeometry } from './thread/geometry';
+import { Trunk, strokeStyle, THREAD } from './thread/Trunk';
 
 const css = `.thread-mask:where(:not(.absolute):not(.fixed):not(.sticky)){position:relative}.thread-mask{z-index:1}`;
-const strokeStyle = { stroke: 'rgb(var(--line))', strokeOpacity: 0.85, fill: 'none', strokeWidth: 1 } as const;
+const glow = { filter: 'drop-shadow(0 0 2.5px rgb(216 183 106 / 0.75)) drop-shadow(0 0 7px rgb(184 137 58 / 0.35))' } as const;
 
 export function ThreadLayer({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [geo, setGeo] = useState<ThreadGeometry | null>(null);
   const reduce = useReducedMotion();
   const progress = useMotionValue(reduce ? 1 : 0);
+  const branchP = useMotionValue(reduce ? 1 : 0);
+  const uid = useId().replace(/:/g, '');
   const { scrollY } = useScroll();
   const pageTop = useRef(0);
   const geoRef = useRef<ThreadGeometry | null>(null);
@@ -39,11 +42,17 @@ export function ThreadLayer({ children }: { children: ReactNode }) {
   const update = useCallback(() => {
     const g = geoRef.current;
     if (!g) return;
-    if (reduce) return progress.set(1);
+    if (reduce) {
+      progress.set(1);
+      branchP.set(1);
+      return;
+    }
     const len = g.trunk.y1 - g.trunk.y0;
-    const head = window.scrollY + window.innerHeight * 0.7 - pageTop.current - g.trunk.y0;
-    progress.set(Math.max(0, Math.min(1, head / len)));
-  }, [progress, reduce]);
+    const headY = window.scrollY + window.innerHeight * 0.7 - pageTop.current;
+    progress.set(Math.max(0, Math.min(1, (headY - g.trunk.y0) / len)));
+    const { y0, y1 } = g.branchSpan;
+    branchP.set(Math.max(0, Math.min(1, (headY - y0) / Math.max(1, y1 - y0))));
+  }, [progress, branchP, reduce]);
 
   useMotionValueEvent(scrollY, 'change', update);
 
@@ -87,8 +96,6 @@ export function ThreadLayer({ children }: { children: ReactNode }) {
   }, [update]);
 
   const len = geo ? geo.trunk.y1 - geo.trunk.y0 : 0;
-  const offset = useTransform(progress, (v) => len * (1 - v));
-  const diamondOpacity = useTransform(progress, [0.97, 1], [0, 1]);
 
   return (
     <div ref={ref} className="relative">
@@ -101,11 +108,13 @@ export function ThreadLayer({ children }: { children: ReactNode }) {
           height={geo.height}
           viewBox={`0 0 ${geo.width} ${geo.height}`}
           className="pointer-events-none absolute left-0 top-0 z-0"
+          style={glow}
         >
           {geo.branches.map((d, i) => (
-            <path key={i} d={d} style={strokeStyle} vectorEffect="non-scaling-stroke" />
+            <motion.path key={i} d={d} style={{ ...strokeStyle, pathLength: branchP }} />
           ))}
-          <Trunk geo={geo} len={len} offset={offset} diamondOpacity={diamondOpacity} />
+          <JoinBead geo={geo} p={branchP} />
+          <Trunk geo={geo} len={len} progress={progress} id={`${uid}a`} />
         </svg>
       )}
       {geo && geo.overlayFrom !== null && (
@@ -116,9 +125,9 @@ export function ThreadLayer({ children }: { children: ReactNode }) {
           height={geo.height}
           viewBox={`0 0 ${geo.width} ${geo.height}`}
           className="pointer-events-none absolute left-0 top-0 z-[2]"
-          style={{ clipPath: `inset(${geo.overlayFrom}px 0 0 0)` }}
+          style={{ clipPath: `inset(${geo.overlayFrom}px 0 0 0)`, ...glow }}
         >
-          <Trunk geo={geo} len={len} offset={offset} diamondOpacity={diamondOpacity} />
+          <Trunk geo={geo} len={len} progress={progress} id={`${uid}b`} />
         </svg>
       )}
       {children}
@@ -126,20 +135,15 @@ export function ThreadLayer({ children }: { children: ReactNode }) {
   );
 }
 
-type MV = ReturnType<typeof useMotionValue<number>>;
-function Trunk({ geo, len, offset, diamondOpacity }: { geo: ThreadGeometry; len: number; offset: MV; diamondOpacity: MV }) {
+/** A small knot where the two threads become one. */
+function JoinBead({ geo, p }: { geo: ThreadGeometry; p: ReturnType<typeof useMotionValue<number>> }) {
+  const o = useTransform(p, [0.92, 1], [0, 1]);
+  if (geo.mobile) return null;
+  const { x, y0 } = geo.trunk;
   return (
-    <>
-          <motion.path
-            d={`M${geo.trunk.x} ${geo.trunk.y0} V${geo.trunk.y1}`}
-            style={{ ...strokeStyle, strokeDasharray: len, strokeDashoffset: offset }}
-            vectorEffect="non-scaling-stroke"
-          />
-          <motion.path
-            d={`M${geo.trunk.x} ${geo.trunk.y1 - 7} l7 7 l-7 7 l-7 -7 z`}
-            style={{ ...strokeStyle, opacity: diamondOpacity }}
-            vectorEffect="non-scaling-stroke"
-          />
-    </>
+    <motion.g style={{ opacity: o }} stroke={THREAD} strokeWidth={1} fill="none">
+      <path d={`M${x} ${y0 - 6} l6 6 l-6 6 l-6 -6 z`} fill="rgb(248 244 232)" />
+      <path d={`M${x} ${y0 - 2.4} l2.4 2.4 l-2.4 2.4 l-2.4 -2.4 z`} fill={THREAD} stroke="none" />
+    </motion.g>
   );
 }
