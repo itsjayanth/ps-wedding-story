@@ -65,6 +65,7 @@ h1, h2, h3, .font-serif { font-family: var(--font-display), Georgia, serif; font
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .foil-text { animation: none; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
