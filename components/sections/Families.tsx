@@ -42,7 +42,7 @@ function Card({
       <div data-thread-from={side} className="absolute -top-14 left-1/2 h-0 w-0" />
       <div className="thread-mask relative w-full px-6 pb-12 pt-32 text-center sm:px-10">
         <ArchFrame />
-        <p className="text-accent text-xs uppercase tracking-[0.3em]">{family.label}</p>
+        <p className="text-accent font-serif text-lg italic">{family.label}</p>
         <ul className="mt-6 space-y-1 font-serif text-2xl leading-snug sm:text-3xl">
           {family.parents.map((p) => (
             <li key={p}>{p}</li>
