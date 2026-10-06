@@ -41,8 +41,8 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-h1, h2, h3, .font-serif { font-family: var(--font-cormorant), Georgia, serif; font-weight: 300; }
-.kn { font-family: var(--font-kannada), serif; }
+h1, h2, h3, .font-serif { font-family: var(--font-display), Georgia, serif; font-weight: 400; letter-spacing: -0.01em; }
+.font-script { font-family: var(--font-script), cursive; font-weight: 400; letter-spacing: 0; }
 .bg-surface { background-color: rgb(var(--surface)); }
 .bg-surface-alt { background-color: rgb(var(--surface-alt)); }
 .text-body { color: rgb(var(--text)); }

@@ -30,7 +30,6 @@ export function Closing({ version }: { version: Version }) {
           </h2>
           <Lotus className="mt-12 h-8 w-12 text-gold-light/60" />
           <p className="mt-10 font-serif text-3xl font-light text-ivory sm:text-4xl">{couple.ampersandNames}</p>
-          <p lang="kn" className="kn mt-3 text-lg text-gold-light">{couple.kannada}</p>
           <p className="mt-12 max-w-[40ch] text-base">{closing.wishes}</p>
           {version === 'family' && (
             <div className="mt-10">

@@ -14,9 +14,10 @@ const config: Config = {
         ink: 'rgb(var(--ink) / <alpha-value>)',
       },
       fontFamily: {
-        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
+        serif: ['var(--font-display)', 'Georgia', 'serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+        script: ['var(--font-script)', 'cursive'],
         sans: ['var(--font-jost)', 'system-ui', 'sans-serif'],
-        kannada: ['var(--font-kannada)', 'serif'],
       },
       transitionTimingFunction: { calm: 'cubic-bezier(0.22, 0.61, 0.36, 1)' },
     },

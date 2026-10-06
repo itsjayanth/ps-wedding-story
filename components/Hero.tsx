@@ -86,9 +86,6 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 py-24 text-center pt-safe pb-safe">
-        <motion.p {...show(0.4)} className="font-serif text-base italic text-gold-light sm:text-lg">
-          {wedding.invocation}
-        </motion.p>
         <motion.p {...show(1.2)} className="mt-6 font-serif text-lg text-ivory sm:text-xl">
           {wedding.hero.blessing}
         </motion.p>
@@ -103,9 +100,6 @@ export function Hero() {
           </span>
         </motion.h1>
 
-        <motion.p {...show(2.4)} lang="kn" className="kn mt-6 text-lg text-ivory sm:text-xl">
-          {wedding.couple.kannada}
-        </motion.p>
         <motion.p {...show(3)} className="mt-8 max-w-[26rem] font-serif text-lg leading-snug text-ivory sm:text-xl">
           {wedding.hero.invite}
         </motion.p>

@@ -14,7 +14,6 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <path d="M ${x0} ${bot} V ${top + 70}${scallop} V ${bot} Z"/>
 </g>
 <g text-anchor="middle" font-family="Cormorant Garamond, Georgia, 'Liberation Serif', serif">
-  <text x="${cx}" y="188" font-size="22" font-style="italic" fill="${deep}">|| Sri Rameshwaraswamy Prasanna ||</text>
   <text x="${cx}" y="300" font-size="86" font-weight="300" fill="${ink}">Prajwal</text>
   <text x="${cx}" y="352" font-size="38" font-style="italic" fill="${gold}">&amp;</text>
   <text x="${cx}" y="430" font-size="86" font-weight="300" fill="${ink}">Supraja</text>

@@ -23,13 +23,9 @@ export const wedding = {
     ogImage: '/og.jpg',
   },
 
-  invocation: '|| Sri Rameshwaraswamy Prasanna ||',
-
   couple: {
     groom: { name: 'Prajwal M Palegar', short: 'Prajwal' },
     bride: { name: 'Supraja K.S.', short: 'Supraja' },
-    // TODO: verify Kannada spellings with the families before publishing.
-    kannada: 'ಪ್ರಜ್ವಲ್ ಎಂ. ಮತ್ತು ಸುಪ್ರಜಾ ಕೆ.ಎಸ್.',
     ampersandNames: 'Prajwal & Supraja',
   },
 
@@ -102,7 +98,6 @@ export const wedding = {
       {
         id: 'reception',
         title: 'Reception',
-        kannada: 'ಆರತಕ್ಷತೆ',
         day: 'Saturday',
         date: '21 November 2026',
         time: '7:00 pm onwards',
@@ -111,7 +106,6 @@ export const wedding = {
       {
         id: 'muhurtham',
         title: 'Muhurtham',
-        kannada: 'ಮುಹೂರ್ತ',
         day: 'Sunday',
         date: '22 November 2026',
         time: '9:30 am to 10:15 am',

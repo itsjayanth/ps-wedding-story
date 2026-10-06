@@ -25,7 +25,6 @@ export function Celebrations({ version }: { version: Version }) {
         <div className="mt-16 grid gap-20 md:mt-24 md:grid-cols-2 md:gap-x-24 md:gap-y-0">
           {c.events.map((e) => (
             <article key={e.id} aria-labelledby={`ev-${e.id}`} className="thread-mask mx-auto w-full max-w-sm px-3 py-4">
-              <p className="kn text-4xl font-normal leading-snug text-accent md:text-5xl">{e.kannada}</p>
               <h3 id={`ev-${e.id}`} className="mt-3 font-serif text-2xl font-light text-ink dark:text-ivory md:text-3xl">
                 {e.title}
               </h3>
