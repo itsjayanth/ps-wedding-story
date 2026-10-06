@@ -63,3 +63,6 @@ h1, h2, h3, .font-serif { font-family: var(--font-cormorant), Georgia, serif; fo
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* Gold-thread mask: text blocks that cross the thread set --mask-bg to their own section colour. */
+.thread-mask { background-color: rgb(var(--mask-bg, var(--surface))); }
