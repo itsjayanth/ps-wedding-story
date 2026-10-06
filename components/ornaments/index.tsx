@@ -237,32 +237,6 @@ export function Kolam({ className, ...p }: OrnamentProps) {
   );
 }
 
-/* ------------------------------------------------------------------ Diya --- */
-
-/** Brass lamp (agal vilakku style) with pedestal; `lit` draws a teardrop flame with a tiny inner line. */
-export function Diya({ className, lit = false, ...p }: OrnamentProps & { lit?: boolean }) {
-  return (
-    <svg viewBox="0 0 100 80" className={className} aria-hidden="true" {...p}>
-      {/* shallow bowl with open rim ellipse and pinched spout */}
-      <path {...base} d="M10 40C13 56 30 62 50 62s37-6 40-22" />
-      <path {...base} d="M10 40c0 5 18 9 40 9s40-4 40-9c0-5-18-9-40-9S10 35 10 40z" />
-      <path {...base} d="M10 40C6 38 3 35 1 31c5 1 8 3 11 5" />
-      {/* decorative band */}
-      <path {...base} d="M18 52c10 5 54 5 64 0" />
-      {/* pedestal */}
-      <path {...base} d="M42 61l3 6h10l3-6M45 67c-2 2-4 3-5 6h20c-1-3-3-4-5-6M36 73h28v4H36z" />
-      {/* wick */}
-      <path {...base} d="M50 33v-4" />
-      {lit && (
-        <>
-          <path {...base} d="M50 29C42 23 42 14 50 3c8 11 8 20 0 26z" />
-          <path {...base} d="M50 25c-2-3-2-6 0-10" />
-        </>
-      )}
-    </svg>
-  );
-}
-
 /* --------------------------------------------------------------- Diamond --- */
 
 export function Diamond({ className, ...p }: OrnamentProps) {
