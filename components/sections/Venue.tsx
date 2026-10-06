@@ -1,26 +1,34 @@
 import { wedding } from '@/content/wedding';
 import { Reveal } from '../Reveal';
 import { VenueMap } from './parts/VenueMap';
-
-const btn =
-  'inline-flex min-h-[44px] items-center justify-center border border-gold px-7 py-3 text-[0.95rem] font-normal text-accent transition-colors duration-[900ms] ease-calm hover:bg-gold/10 focus-visible:bg-gold/10';
+import { MaskLines } from './parts/MaskLine';
+import { FoilPill } from './parts/FoilPill';
 
 export function Venue() {
   const { venue } = wedding;
   return (
-    <section data-section="venue" aria-labelledby="venue-h" className="px-6 py-24 pb-safe pl-10 sm:py-32 md:px-10">
-      <Reveal className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2 md:gap-20">
-        <VenueMap label={`Illustrated map of ${venue.full}`} />
+    <section data-section="venue" aria-labelledby="venue-h" className="paper overflow-hidden px-6 py-28 pb-safe pl-10 sm:py-40 md:px-10">
+      <div aria-hidden="true" className="jali-bg pointer-events-none absolute inset-0 -z-10 opacity-[0.05]" />
+      <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-[1.05fr_1fr] md:gap-24">
+        <VenueMap label={`Illustrated map of ${venue.full}`} name={venue.name} caption={venue.mapCaption} />
         <div className="text-center md:text-left">
-          <h2 id="venue-h" className="font-serif text-4xl font-light sm:text-5xl">{venue.heading}</h2>
-          <p className="mt-8 font-serif text-2xl font-light sm:text-3xl">{venue.name}</p>
-          <p className="mt-2 text-accent">{venue.locality}</p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
-            <a href={venue.mapsUrl} target="_blank" rel="noopener noreferrer" className={btn}>Open in Google Maps</a>
-            <a href={venue.directionsUrl} target="_blank" rel="noopener noreferrer" className={btn}>Get directions</a>
-          </div>
+          <h2 id="venue-h" className="font-serif text-[clamp(3.4rem,9vw,7rem)] font-normal leading-[0.95] tracking-tight">
+            <MaskLines lines={venue.heading.split(' ').map((w, i, arr) => (i === 0 && arr.length > 1 ? <span key={w} className="italic text-accent">{w}</span> : <span key={w}>{w}</span>))} />
+          </h2>
+          <Reveal delay={0.4}>
+            <div className="mx-auto mt-8 flex max-w-[16rem] items-center gap-3 md:mx-0" aria-hidden="true">
+              <span className="gold-rule h-px flex-1" />
+              <span className="h-1.5 w-1.5 rotate-45 border border-gold" />
+              <span className="gold-rule h-px flex-1" />
+            </div>
+            <p className="mt-8 font-serif text-2xl italic text-accent sm:text-3xl">{venue.locality}</p>
+            <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center md:justify-start">
+              <FoilPill href={venue.mapsUrl}>Open in Google Maps</FoilPill>
+              <FoilPill href={venue.directionsUrl}>Get directions</FoilPill>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

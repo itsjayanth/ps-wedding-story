@@ -127,6 +127,7 @@ export const wedding = {
 
   venue: {
     heading: 'The venue',
+    mapCaption: 'Mysore',
     name: 'Spectra Convention Centre',
     locality: 'Hinkal, Mysore',
     get full() {
@@ -155,6 +156,10 @@ export const wedding = {
 
   closing: {
     countdownTarget: '2026-11-22T09:30:00+05:30',
+    countdownLabels: { days: 'Days', hours: 'Hours', minutes: 'Minutes', seconds: 'Seconds' },
+    countdownSentence: 'until the muhurtham.',
+    doneLine: 'Today is the day. Thank you for being with us.',
+    farewell: 'With love and gratitude',
     line: 'Your blessings will make our beginning complete.',
     wishes: 'With best wishes from Relatives & Friends',
     photo: { src: '/media/closing.jpg', alt: 'Prajwal and Supraja', caption: 'Closing portrait' } as MediaRef,
