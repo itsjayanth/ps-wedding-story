@@ -26,7 +26,6 @@ npm run format       # prettier
 Everything lives in `content/wedding.ts`: names, dates, venue, events, quotes, media paths, WhatsApp number.
 
 - Lines marked `// SAMPLE: replace` are placeholder copy. Replace them (and a small "sample" tag disappears with them where applicable).
-- `couple.kannada` has a `TODO`: verify the Kannada spellings with both families before publishing.
 
 ### WhatsApp number
 

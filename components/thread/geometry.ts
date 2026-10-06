@@ -5,6 +5,8 @@ export interface ThreadGeometry {
   mobile: boolean;
   /** Static branch paths (the two threads, or on mobile the single curving one). */
   branches: string[];
+  /** Page-space y range over which the branches are drawn (scroll-linked). */
+  branchSpan: { y0: number; y1: number };
   /** Straight scroll-drawn trunk. */
   trunk: { x: number; y0: number; y1: number };
   /** Top of a dark/positioned closing section that would cover the SVG; the trunk is redrawn above it from here. */
@@ -42,7 +44,7 @@ export function measure(layerEl: HTMLElement): ThreadGeometry | null {
     const h = 28;
     const branch = `M${g.x} ${g.y} C${g.x} ${g.y + h} ${x} ${yj - h} ${x} ${yj}`;
     if (yEnd <= b.y + 40) return null;
-    return { width: layer.width, height: layer.height, mobile, branches: [branch], trunk: { x, y0: b.y, y1: yEnd }, overlayFrom };
+    return { width: layer.width, height: layer.height, mobile, branches: [branch], branchSpan: { y0: g.y, y1: yj }, trunk: { x, y0: b.y, y1: yEnd }, overlayFrom };
   }
 
   const j = join ? rel(join, layer) : { x: (b.x + g.x) / 2, y: Math.max(b.y, g.y) + 400, bottom: 0 };
@@ -54,6 +56,7 @@ export function measure(layerEl: HTMLElement): ThreadGeometry | null {
     height: layer.height,
     mobile,
     branches: [curve(b.x, b.y), curve(g.x, g.y)],
+    branchSpan: { y0: Math.min(b.y, g.y), y1: j.y },
     trunk: { x: j.x, y0: j.y, y1: yEnd },
     overlayFrom,
   };

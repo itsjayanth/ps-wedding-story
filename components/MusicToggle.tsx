@@ -74,24 +74,29 @@ export function MusicToggle() {
       onClick={toggle}
       aria-pressed={on}
       aria-label={`${wedding.music.label}: ${on ? 'on' : 'off'}`}
-      className="fixed z-40 flex h-11 w-11 items-center justify-center rounded-full border border-gold-light/70 bg-bronze/45 text-gold-light backdrop-blur-md transition-opacity duration-[1400ms]"
+      className="group fixed z-40 flex h-12 w-12 items-center justify-center rounded-full border border-gold-light/80 bg-[rgb(27_20_12/0.55)] p-[3px] text-gold-light shadow-[0_0_24px_rgb(216_183_106/0.25)] backdrop-blur-md transition-[opacity,box-shadow] duration-[1400ms] hover:shadow-[0_0_32px_rgb(216_183_106/0.45)]"
       style={{
         top: 'calc(var(--safe-top) + 14px)',
         right: 'max(14px, env(safe-area-inset-right, 0px))',
         opacity: entered ? 1 : 0,
       }}
     >
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M4 9.5h3l4-3.5v12l-4-3.5H4z" />
+      <span className="flex h-full w-full items-center justify-center rounded-full border border-gold-light/30">
         {on ? (
-          <>
-            <path d="M14.5 9.2a4 4 0 0 1 0 5.6" />
-            <path d="M17 6.8a7.2 7.2 0 0 1 0 10.4" />
-          </>
+          <span aria-hidden="true" className="flex h-5 items-end gap-[3px]">
+            {[0, 1, 2, 3].map((i) => (
+              <span key={i} className="music-bar w-[2px] rounded-full bg-gold-light" style={{ animationDelay: `${i * 0.18}s`, height: '100%' }} />
+            ))}
+          </span>
         ) : (
-          <path d="M15 9.5l5 5M20 9.5l-5 5" />
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 19c-4-2.6-5-8-0-13 5 5 4 10.4 0 13Z" />
+            <path d="M12 19c-5.500-.5-8-4-8.500-8 4.500 0 7.800 3 8.500 8Z" opacity="0.8" />
+            <path d="M12 19c5.500-.5 8-4 8.500-8-4.500 0-7.800 3-8.500 8Z" opacity="0.8" />
+          </svg>
         )}
-      </svg>
+      </span>
+      <style>{`@keyframes music-bar{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}.music-bar{transform-origin:bottom;animation:music-bar 1.1s ease-in-out infinite}@media (prefers-reduced-motion:reduce){.music-bar{animation:none;transform:scaleY(.7)}}`}</style>
     </button>
   );
 }

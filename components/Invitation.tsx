@@ -3,6 +3,7 @@ import { EntryGate } from './EntryGate';
 import { Hero } from './Hero';
 import { MusicToggle } from './MusicToggle';
 import { ThreadLayer } from './ThreadLayer';
+import { ScrollProgress } from './thread/ScrollProgress';
 import { Beginning } from './sections/Beginning';
 import { Blessings } from './sections/Blessings';
 import { Celebrations } from './sections/Celebrations';
@@ -16,6 +17,7 @@ import { Venue } from './sections/Venue';
 export function Invitation({ version }: { version: Version }) {
   return (
     <EntryGate>
+      <ScrollProgress />
       <MusicToggle />
       <main>
         <Hero />

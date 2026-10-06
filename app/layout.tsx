@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Jost, Noto_Serif_Kannada } from 'next/font/google';
+import { Bodoni_Moda, Jost, Pinyon_Script } from 'next/font/google';
 import { wedding } from '@/content/wedding';
 import './globals.css';
 
-const cormorant = Cormorant_Garamond({ subsets: ['latin'], weight: ['300', '400', '500'], style: ['normal', 'italic'], variable: '--font-cormorant', display: 'swap' });
+const display = Bodoni_Moda({ subsets: ['latin'], weight: ['400', '500'], style: ['normal', 'italic'], variable: '--font-display', display: 'swap' });
 const jost = Jost({ subsets: ['latin'], weight: ['300', '400'], variable: '--font-jost', display: 'swap' });
-const kannada = Noto_Serif_Kannada({ subsets: ['kannada'], weight: ['300', '400'], variable: '--font-kannada', display: 'swap' });
+const script = Pinyon_Script({ subsets: ['latin'], weight: '400', variable: '--font-script', display: 'swap' });
 
 const { site } = wedding;
 
@@ -38,7 +38,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${jost.variable} ${kannada.variable}`}>
+    <html lang="en" className={`${display.variable} ${jost.variable} ${script.variable}`}>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
