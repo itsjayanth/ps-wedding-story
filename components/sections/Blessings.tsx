@@ -1,47 +1,64 @@
+'use client';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { wedding, type Version } from '@/content/wedding';
-import { Reveal } from '../Reveal';
-import { SampleTag } from '../SampleTag';
+import { Lotus } from '../ornaments';
+import { ArchFrame } from './parts/ArchFrame';
 import { BlessingVideo } from './parts/BlessingVideo';
-
-function Quote({ quote, by, sample }: { quote: string; by: string; sample?: boolean }) {
-  return (
-    <figure className="thread-mask px-3 py-2 text-center">
-      <blockquote className="font-serif text-2xl font-light italic leading-snug text-ink dark:text-ivory md:text-3xl">
-        {quote}
-        {sample && <SampleTag />}
-      </blockquote>
-      <figcaption className="mt-4 font-sans text-sm font-light text-accent">{by}</figcaption>
-    </figure>
-  );
-}
+import { MaskedHeading } from './parts/MaskedHeading';
+import { PullQuote } from './parts/PullQuote';
 
 export function Blessings({ version }: { version: Version }) {
   const b = wedding.blessings;
   const friends = version === 'friends';
+  const reduce = useReducedMotion();
+  const frameRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: frameRef, offset: ['start end', 'end start'] });
+  const frameY = useTransform(scrollYProgress, [0, 1], [36, -36]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.1, 0.9]);
   return (
     <section
       data-section="blessings"
       data-version={version}
       aria-labelledby="blessings-heading"
-      className="relative py-24 pl-10 pr-6 md:px-10 md:py-40"
+      className="relative overflow-hidden py-24 pl-10 pr-6 md:px-10 md:py-44"
+      style={{ '--mask-bg': '27 20 12', backgroundColor: 'rgb(27 20 12)', color: 'rgb(248 244 232)' } as React.CSSProperties}
     >
-      <Reveal duration={2.2} className="mx-auto max-w-5xl">
-        <h2
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center text-gold-light" aria-hidden="true">
+          <Lotus className="mx-auto h-9 w-9 md:h-12 md:w-12" />
+        </div>
+        <MaskedHeading
           id="blessings-heading"
-          className="thread-mask mx-auto w-fit px-4 py-2 text-center font-serif text-4xl font-light text-ink dark:text-ivory md:text-6xl"
-        >
-          {b.heading}
-        </h2>
-        <div className="mt-14 md:mt-20">
-          <BlessingVideo />
+          text={b.heading}
+          className="mt-4 font-serif text-6xl font-normal italic md:text-9xl"
+          wordClassName="foil-text"
+        />
+
+        <div ref={frameRef} className="relative mx-auto mt-14 w-full max-w-[22rem] md:mt-24 md:max-w-xl">
+          <motion.div
+            aria-hidden="true"
+            style={reduce ? undefined : { y: glowY, scale: glowScale }}
+            className="pointer-events-none absolute -inset-16 -z-0 rounded-full opacity-70 blur-2xl md:-inset-28"
+          >
+            <div className="h-full w-full rounded-full" style={{ background: 'radial-gradient(closest-side, rgb(216 183 106 / 0.28), transparent)' }} />
+          </motion.div>
+          <motion.div style={reduce ? undefined : { y: frameY }} className="relative">
+            <ArchFrame aspect="3 / 4.2" className="text-gold-light" fillClassName="bg-bronze">
+              <BlessingVideo />
+            </ArchFrame>
+          </motion.div>
         </div>
-        <div className="mx-auto mt-20 flex max-w-2xl flex-col gap-16 md:mt-28 md:gap-24">
-          {b.elders.map((q) => (
-            <Quote key={q.by} {...q} sample />
+
+        <div className="mx-auto mt-16 flex flex-col gap-10 md:mt-28 md:gap-16">
+          {b.elders.map((q, i) => (
+            <PullQuote key={q.by} {...q} align={i % 2 === 0 ? 'left' : 'right'} />
           ))}
-          {friends && b.friends.map((q) => <Quote key={q.by} {...q} sample />)}
+          {friends &&
+            b.friends.map((q, i) => <PullQuote key={q.by} {...q} size="md" align={i % 2 === 0 ? 'right' : 'left'} />)}
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

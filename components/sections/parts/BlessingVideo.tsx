@@ -44,7 +44,7 @@ export function BlessingVideo() {
   const canPlay = available === true;
 
   return (
-    <div ref={ref} className="relative aspect-video w-full overflow-hidden bg-sandstone">
+    <div ref={ref} className="relative h-full w-full overflow-hidden bg-sandstone">
       {!near ? (
         <Placeholder caption={v.caption} className="absolute inset-0" />
       ) : playing && canPlay ? (
